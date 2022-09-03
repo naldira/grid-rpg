@@ -118,7 +118,7 @@ class Board:
             return can_go_up, can_go_down, can_go_left, can_go_right
         else:
             logging.info('invalid position given to allowed_moves')
-            raise ValueError(f'{position} is not a (x, y) coordinates tuple')
+            raise ValueError(f'{position} is not a (x, y) coordinates list')
 
     def move(self, coords: coords_list, direction: str) -> str or None:
         """
@@ -203,16 +203,6 @@ class Board:
                     quit()
                 else:
                     continue
-
-    # def cells_init(self) -> dict:
-    #     for _x in range(self.map_size[0]):
-    #         for _y in range(self.map_size[1]):
-    #             self.cell_data[(_x + 1, _y + 1)] = None
-    #
-    # def manipulate_cell(self, cell: tuple[int, int], value: str):
-    #     if self.cell_data == dict():
-    #         self.cells_init()
-    #     self.cell_data[cell] = value
 
 
 class BoardPrints:

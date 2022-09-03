@@ -253,8 +253,3 @@ class Helpers:
 calculate_distance = Helpers.calc_distance
 point_comparison = Helpers.point_comparison
 
-
-if __name__ == '__main__':
-    # x = Helpers.get_dimensions()
-    # print(x)
-    Helpers.get_direction((False, False, False, True))

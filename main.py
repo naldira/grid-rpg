@@ -25,9 +25,9 @@ def main() -> None:
         dragon_player_distance = Helpers.calc_distance(dragon_pos, player_pos)
         player_door_distance = Helpers.calc_distance(player_pos, door_pos)
         gridboard.BoardPrints.place_player(generated_board, player_pos)
-        if mode == 'test' or player.player_sight(dragon_player_distance):
+        if mode == 'test' or player.check_by_sight(dragon_player_distance):
             gridboard.BoardPrints.place_dragon(generated_board, dragon_pos)
-        if mode == 'test' or player.player_sight(player_door_distance):
+        if mode == 'test' or player.check_by_sight(player_door_distance):
             gridboard.BoardPrints.place_door(generated_board, door_pos)
         gridboard.BoardPrints.print_board(generated_board)
         gridboard.BoardPrints.remove_player(generated_board, player_pos, dragon_pos) # noqa
@@ -43,13 +43,13 @@ def main() -> None:
         carry_over = board.move(player_pos, direction)
         board.check_victory_loss(main)
         if direction in Helpers.direction_list:
-            if dragon.dragon_sight(dragon_player_distance):
+            if dragon.check_by_sight(dragon_player_distance):
                 dragon_direction = Helpers.point_comparison(player_pos, dragon_pos)  # noqa
                 board.move(dragon_pos, dragon_direction)
-            if dragon.dragon_hearing(dragon_player_distance):
+            if dragon.check_by_hearing(dragon_player_distance):
                 dragon_direction = Helpers.point_comparison(player_pos, dragon_pos)  # noqa
                 board.move(dragon_pos, dragon_direction)
-            if mode == 'test' or player.player_sight(dragon_player_distance):
+            if mode == 'test' or player.check_by_sight(dragon_player_distance):
                 gridboard.BoardPrints.place_dragon(generated_board, dragon_pos)
             Helpers.clear_board()
             gridboard.BoardPrints.print_board(generated_board)
