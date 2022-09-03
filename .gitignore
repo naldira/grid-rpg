@@ -1,0 +1,10 @@
+venv
+venv/
+.evn
+.evn/
+.venv
+.venv/
+env/
+env
+.idea
+.idea/
