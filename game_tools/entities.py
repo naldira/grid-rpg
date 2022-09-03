@@ -1,5 +1,7 @@
 from random import randint
 import logging
+from abc import (abstractmethod,
+                 ABCMeta)
 
 
 """
@@ -7,13 +9,26 @@ contains characters used in the game.
 """
 
 
-class Character:
+class Character(metaclass=ABCMeta):
     """
     Character class for all non-item entities.
     """
 
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, health: int = 0, attack: int = 0, defence: int = 0) -> None:
         self.name = name
+        self.health = health
+        self.attack = attack
+        self.defence = defence
+
+    @property
+    @abstractmethod
+    def sight(self):
+        raise NotImplementedError
+
+    @sight.setter
+    @abstractmethod
+    def sight(self):
+        raise NotImplementedError
 
 
 class Dragon(Character):
@@ -21,9 +36,8 @@ class Dragon(Character):
     dragon class with a default dragon name.
     """
 
-    def __init__(self, difficulty: str = 'normal', name: str = 'dragon') -> None:
-        Character.__init__(self, name)
-        self.status = 'alive'
+    def __init__(self, difficulty: str = 'normal', name: str = 'dragon', health: int = 100, attack: int = 10) -> None:
+        Character.__init__(self, name, health=health, attack=attack)
         self.sight = difficulty
         self.hearing = difficulty
 
@@ -79,7 +93,7 @@ class Dragon(Character):
             logging.info(f'{difficulty} is an invalid difficulty for dragon')
             raise ValueError(f"{difficulty} is not a valid difficulty")
 
-    def dragon_sight(self, distance: float, odds: int = 10) -> bool:
+    def check_by_sight(self, distance: float, odds: int = 10) -> bool:
         """
         allows the dragon to move toward player based on the
         given distance and success chance (default is 100%).
@@ -103,7 +117,7 @@ class Dragon(Character):
                 move = True
         return move
 
-    def dragon_hearing(self, distance: float, odds: int = 3) -> bool:
+    def check_by_hearing(self, distance: float, odds: int = 3) -> bool:
         """
         allows the dragon to move toward player based on the
         given distance and success chance (default is 30%).
@@ -133,9 +147,8 @@ class Player(Character):
     player class with a player default name
     """
 
-    def __init__(self, difficulty: str = 'normal', name: str = 'player') -> None:
-        Character.__init__(self, name)
-        self.status = 'alive'
+    def __init__(self, difficulty: str = 'normal', name: str = 'player', heath: int = 10) -> None:
+        Character.__init__(self, name, health=heath)
         self.sight = difficulty
 
     @property
@@ -164,7 +177,7 @@ class Player(Character):
             logging.info(f'{difficulty} is an invalid difficulty for player')
             raise ValueError(f"{difficulty} is not a valid difficulty")
 
-    def player_sight(self, distance: float) -> bool:
+    def check_by_sight(self, distance: float) -> bool:
         """
         allows player to see the content of cells around it.
 
@@ -184,14 +197,3 @@ class Player(Character):
             can_see = False
         return can_see
 
-
-# tests
-if __name__ == '__main__':
-    dragon = Dragon('hard')
-    for key, value in dragon.__dict__.items():
-        print(f"{key} is {value}")
-    player = Player()
-    for key, value in player.__dict__.items():
-        print(f"{key} is {value}")
-    print(dragon.dragon_hearing(3))
-    print(player.player_sight(2))
